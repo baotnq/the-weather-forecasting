@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.16db1b01.css",
+    "main.js": "/static/js/main.ebb418fb.js",
+    "static/media/humidity.svg": "/static/media/humidity.6499a5cec9fcc141b70dcdb6a54adc66.svg",
+    "index.html": "/index.html",
+    "main.16db1b01.css.map": "/static/css/main.16db1b01.css.map",
+    "main.ebb418fb.js.map": "/static/js/main.ebb418fb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.16db1b01.css",
+    "static/js/main.ebb418fb.js"
+  ]
+}
