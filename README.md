@@ -1,59 +1,27 @@
-![Application screenshot](./public/screenshot.png)
+## React Weather App
 
-<br/>
-<br/>
+Create a weather application that provides detailed weather information for Singapore.
 
-With [The Weather Forecasting](https://the-weather-forecasting.netlify.app) user can search locations by city name and observe the weather for the next 5-6 days and 3 hour interval.
-<br />
-The app is developed using React.js and material-UI.
+![Alt text](image-5.png)
 
-<br/>
+### Requirement
+ 
+Functionalities:
+* [x] Include a search field for the user to enter location.
+* [x] Display hourly weather forecast for the current day
+![Alt text](image-1.png)
+* [x] Allows the option to show X-day (e.g. 5-day) weather forecast
+- chose: 0: khong hien thi 
+- ![Alt text](image-2.png)
+- ![Alt text](image-3.png)
+* [x] Have a responsive design and auto re-fresh periodically to get updated data
+- ![Alt text](image.png)
+* [x] Use a weather API of choice (such as open weather map) to fetch the weather data for the location
+* [x] If needed, use a geo-location API to get coordinates for the location
+* [x] Design the UI as a widget-based dashboard.
+* [x] Allows adding widget by entering the city name, the widget will show the details of current weather and forecast weather for 1-7 days of that city.
+* [x] Allows deletion of widgets.
+![Alt text](image-4.png)
+* [x] Allows drag to change the position of the widget on the screen.
 
-## 💻 Live Demo:
-
-https://the-weather-forecasting.netlify.app
-
-<br/>
-
-## ✨ Getting Started
-
-- Make sure you already have `Node.js` and `npm` installed in your system.
-- You need an API key from [OpenWeatherMap](https://openweathermap.org/). After creating an account, [grab your key](https://home.openweathermap.org/api_keys).
-- Then, under the `src` directory, go to `api/OpenWeatherService` and replace `WEATHER_API_KEY` with your OpenWeatherMap API Key.
-  - **`api/OpenWeatherService.js`**: It contains the code related to the back-end of the application.
-
-<br/>
-
-## ⚡ Install
-
-- Clone the repository:
-
-```bash
-git clone https://github.com/Amin-Awinti/the-weather-forecasting.git
-
-```
-
-- Install the packages using the command `npm install`
-
-<br/>
-
-## 📙 Used libraries
-
-- `react-js`
-- `material-ui`
-
-Check `packages.json` for details
-
-<br/>
-
-## 📄 Todos
-
-- [ ] Styled-components
-- [ ] Convert the entire project to TypeScript
-- [ ] Unit Testing
-- [ ] On launch, find user location weather by utilizing GeolocationAPI/GEOCODING
-- [ ] Celcius/Fahrenheit conversion
-- [ ] Dark/Light Mode
-
-<br/>
 Thank You ☺

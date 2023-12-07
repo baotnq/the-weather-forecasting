@@ -16,9 +16,7 @@ export async function fetchWeatherData(lat, lon) {
     let [weatherPromise, forcastPromise, hourly] = await Promise.all([
       fetch(
         `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
-        // `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&exclude=daily,hourly,current,alerts&units=metric`
         ),
-      // `https://api.openweathermap.org/data/2.5/onecall?lat=-41.211128&lon=174.908081&exclude=daily,minutely,current,alerts&units=metric&appid=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       fetch(
         `${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
       ),
@@ -40,7 +38,7 @@ export async function fetchWeatherData(lat, lon) {
 export async function fetchCities(input) {
   try {
     const response = await fetch(
-      `${GEO_API_URL}/cities?minPopulation=10000&namePrefix=${input}`,
+      `${GEO_API_URL}/cities?minPopulation=1000&namePrefix=${input}`,
       GEO_API_OPTIONS
     );
 

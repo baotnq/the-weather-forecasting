@@ -26,7 +26,7 @@ const CityDateDetail = (props) => {
           marginBottom: '8px',
         }}
       >
-        {props.city}
+
       </Typography>
       <Typography
         variant="h4"

@@ -16,12 +16,19 @@ const Weather = ({ enteredData }) => {
   const [forecastDays, setForecastDays] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const [message, setMessage] = useState();
   useEffect(() => {
     if (enteredData && enteredData.value) {
       searchChangeHandler()
     }
   }, [enteredData]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMessage("Auto refresh at " + new Date().toISOString())
+      searchChangeHandler();
+     },5*1000);
+     return () => clearInterval(interval);
+  },[]);
   const searchChangeHandler = async () => {
     const [latitude, longitude] = enteredData.value.split(' '); 
     let city = enteredData["label"];
@@ -72,6 +79,7 @@ const Weather = ({ enteredData }) => {
         <Grid item xs={12} md={showNumber}>
           <WeeklyForecast data={weekForecast} />
         </Grid>
+        <Grid sx={{color:"white"}}>{message}</Grid>
       </>
     );
   }else if (todayWeather && todayForecast) {
