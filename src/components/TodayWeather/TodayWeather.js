@@ -5,6 +5,7 @@ import DailyForecast from './Forecast/DailyForecast';
 import Details from './Details/Details';
 
 const TodayWeather = ({ data, forecastList }) => {
+  console.log('forecastList',forecastList)
   return (
     <Grid container sx={{ padding: '3rem 0rem 0rem' }}>
       <Details data={data} />

@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Container, Grid, Link, SvgIcon, Typography } from '@mui/material';
+import { Slider, Box, Button, Container, Grid, Link, } from '@mui/material';
 import Search from './components/Search/Search';
-import WeeklyForecast from './components/WeeklyForecast/WeeklyForecast';
-import TodayWeather from './components/TodayWeather/TodayWeather';
-import { fetchWeatherData } from './api/OpenWeatherService';
-import { transformDateFormat } from './utilities/DatetimeUtils';
 import UTCDatetime from './components/Reusable/UTCDatetime';
 import LoadingBox from './components/Reusable/LoadingBox';
 import { ReactComponent as SplashIcon } from './assets/splash-icon.svg';
@@ -16,140 +12,64 @@ import {
   getTodayForecastWeather,
   getWeekForecastWeather,
 } from './utilities/DataUtils';
+import Weather from './components/TodayWeather/Weather';
+import interact from 'interactjs'
+import WeatherList from './components/TodayWeather/WeatherList';
+
+
 
 function App() {
-  const [todayWeather, setTodayWeather] = useState(null);
-  const [todayForecast, setTodayForecast] = useState([]);
-  const [weekForecast, setWeekForecast] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-
+  const [enteredData, setEnteredData] = useState(null);
+  const [city, setCity] = useState('');
+  const [days, setForecastDays] = useState(3);
+  const [listWeather, setListWeather] = useState([]);
   const searchChangeHandler = async (enteredData) => {
-    const [latitude, longitude] = enteredData.value.split(' ');
-
-    setIsLoading(true);
-
-    const currentDate = transformDateFormat();
-    const date = new Date();
-    let dt_now = Math.floor(date.getTime() / 1000);
-
-    try {
-      const [todayWeatherResponse, weekForecastResponse] =
-        await fetchWeatherData(latitude, longitude);
-      const all_today_forecasts_list = getTodayForecastWeather(
-        weekForecastResponse,
-        currentDate,
-        dt_now
-      );
-
-      const all_week_forecasts_list = getWeekForecastWeather(
-        weekForecastResponse,
-        ALL_DESCRIPTIONS
-      );
-
-      setTodayForecast([...all_today_forecasts_list]);
-      setTodayWeather({ city: enteredData.label, ...todayWeatherResponse });
-      setWeekForecast({
-        city: enteredData.label,
-        list: all_week_forecasts_list,
-      });
-    } catch (error) {
-      setError(true);
-    }
-
-    setIsLoading(false);
+    console.log('searchChangeHandler',enteredData)
+    setEnteredData(enteredData);
+    setCity(enteredData.label);
   };
-
-  let appContent = (
-    <Box
-      xs={12}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      sx={{
-        width: '100%',
-        minHeight: '500px',
-      }}
-    >
-      <SvgIcon
-        component={SplashIcon}
-        inheritViewBox
-        sx={{ fontSize: { xs: '100px', sm: '120px', md: '140px' } }}
-      />
-      <Typography
-        variant="h4"
-        component="h4"
-        sx={{
-          fontSize: { xs: '12px', sm: '14px' },
-          color: 'rgba(255,255,255, .85)',
-          fontFamily: 'Poppins',
-          textAlign: 'center',
-          margin: '2rem 0',
-          maxWidth: '80%',
-          lineHeight: '22px',
-        }}
-      >
-        Explore current weather data and 6-day forecast of more than 200,000
-        cities!
-      </Typography>
-    </Box>
-  );
-
-  if (todayWeather && todayForecast && weekForecast) {
-    appContent = (
-      <React.Fragment>
-        <Grid item xs={12} md={todayWeather ? 6 : 12}>
-          <Grid item xs={12}>
-            <TodayWeather data={todayWeather} forecastList={todayForecast} />
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <WeeklyForecast data={weekForecast} />
-        </Grid>
-      </React.Fragment>
-    );
+  const handleChange = (event, newValue) => {
+    setForecastDays(newValue );
+  };
+  const addWeather = () => {
+    let list = listWeather;
+    let count = list.length + 1;
+    let data = enteredData;
+    data["days"] = days;
+    list.push({id:count, data:data });
+    setListWeather([...list]);
+    console.log('todo',data);
   }
-
-  if (error) {
-    appContent = (
-      <ErrorBox
-        margin="3rem auto"
-        flex="inherit"
-        errorMessage="Something went wrong"
-      />
-    );
+  function deleteWeather(id) {
+    console.log('delete', id);
+    let list = listWeather.filter(i => i.id != id);
+    setListWeather([...list]);
   }
+  const position = { x: 0, y: 0 }
+  interact('.draggable').draggable({
+    listeners: {
+      start (event) {
+        console.log(event.type, event.target)
+      },
+      move (event) {
+        position.x += event.dx
+        position.y += event.dy
+  
+        event.target.style.transform =
+          `translate(${position.x}px, ${position.y}px)`
+      },
+    }
+  })
 
-  if (isLoading) {
-    appContent = (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          minHeight: '500px',
-        }}
-      >
-        <LoadingBox value="1">
-          <Typography
-            variant="h3"
-            component="h3"
-            sx={{
-              fontSize: { xs: '10px', sm: '12px' },
-              color: 'rgba(255, 255, 255, .8)',
-              lineHeight: 1,
-              fontFamily: 'Poppins',
-            }}
-          >
-            Loading...
-          </Typography>
-        </LoadingBox>
-      </Box>
-    );
+  function valuetext(value) {
+    return `${value}`;
   }
-
+  const marks = [
+    { value: 0,  label: 'hide',   },
+    { value: 1,  label: '1',  },
+    { value: 2,  label: '2',  },
+    { value: 3, label: '3',    },
+  ];
   return (
     <Container
       sx={{
@@ -157,16 +77,7 @@ function App() {
         width: '100%',
         height: '100%',
         margin: '0 auto',
-        padding: '1rem 0 3rem',
-        marginBottom: '1rem',
-        borderRadius: {
-          xs: 'none',
-          sm: '0 0 1rem 1rem',
-        },
-        boxShadow: {
-          xs: 'none',
-          sm: 'rgba(0,0,0, 0.5) 0px 10px 15px -3px, rgba(0,0,0, 0.5) 0px 4px 6px -2px',
-        },
+        
       }}
     >
       <Grid container columnSpacing={2}>
@@ -206,10 +117,29 @@ function App() {
               />
             </Link>
           </Box>
-          <Search onSearchChange={searchChangeHandler} />
+          <Grid container sx={{padding:'10px'}} columnSpacing={4} rowSpacing={6}> 
+                <Grid item md={5}>
+                  <Search onSearchChange={searchChangeHandler} />
+                </Grid>
+                <Grid item md={3} >
+                  <Slider
+                    aria-label="Temperature"
+                    value={days}
+                    getAriaValueText={valuetext}
+                    onChange={handleChange}
+                    marks={marks}
+                    step={1}
+                    min={0}
+                    max={6}
+                  />
+                </Grid>
+                <Grid item md={2}>
+                  <Button variant="contained" color="info" onClick={addWeather} > Add Weather </Button>
+                </Grid>
+          </Grid>
         </Grid>
-        {appContent}
       </Grid>
+      <WeatherList data={listWeather} onDeleteTask={deleteWeather}></WeatherList>
     </Container>
   );
 }

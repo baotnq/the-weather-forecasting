@@ -132,6 +132,6 @@ export const getTodayForecastWeather = (
   if (all_today_forecasts.length < 7) {
     return [...all_today_forecasts];
   } else {
-    return all_today_forecasts.slice(-6);
+    return all_today_forecasts.slice(-4);
   }
 };
