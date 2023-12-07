@@ -103,7 +103,7 @@ function App() {
 
             <UTCDatetime />
             <Link
-              href="https://github.com/Amin-Awinti"
+              href="https://github.com/baotnq/the-weather-forecasting/tree/gh-pages"
               target="_blank"
               underline="none"
               sx={{ display: 'flex' }}
